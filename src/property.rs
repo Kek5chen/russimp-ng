@@ -1,6 +1,6 @@
 use std::ffi::CStr;
 
-use russimp_sys::{
+use russimp_sys_ng::{
     aiCreatePropertyStore, aiMatrix4x4, aiPropertyStore, aiReleasePropertyStore,
     aiSetImportPropertyFloat, aiSetImportPropertyInteger, aiSetImportPropertyMatrix,
     aiSetImportPropertyString, aiString,

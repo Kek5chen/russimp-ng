@@ -2,7 +2,7 @@
 //!
 //! Implement the FileSystem trait for your custom resource loading, with its open() method returning
 //! objects satisfying the FileOperations trait.
-use russimp_sys::{aiFile, aiFileIO, aiOrigin, aiReturn};
+use russimp_sys_ng::{aiFile, aiFileIO, aiOrigin, aiReturn};
 use std::convert::TryInto;
 use std::ffi::CStr;
 use std::io::SeekFrom;
@@ -232,14 +232,14 @@ impl<T: FileSystem> FileOperationsWrapper<T> {
     unsafe extern "C" fn io_seek(ai_file: *mut aiFile, pos: usize, origin: aiOrigin) -> aiReturn {
         let file = Self::get_file(ai_file);
         let seek_from = match origin {
-            russimp_sys::aiOrigin_aiOrigin_SET => SeekFrom::Start(pos as u64),
-            russimp_sys::aiOrigin_aiOrigin_CUR => SeekFrom::Current(pos as i64),
-            russimp_sys::aiOrigin_aiOrigin_END => SeekFrom::End(pos as i64),
+            russimp_sys_ng::aiOrigin_aiOrigin_SET => SeekFrom::Start(pos as u64),
+            russimp_sys_ng::aiOrigin_aiOrigin_CUR => SeekFrom::Current(pos as i64),
+            russimp_sys_ng::aiOrigin_aiOrigin_END => SeekFrom::End(pos as i64),
             _ => panic!("Assimp passed invalid origin"),
         };
         match file.seek(seek_from) {
             Ok(()) => 0,
-            Err(()) => russimp_sys::aiReturn_aiReturn_FAILURE,
+            Err(()) => russimp_sys_ng::aiReturn_aiReturn_FAILURE,
         }
     }
     // Implementation for aiFile::FlushProc.

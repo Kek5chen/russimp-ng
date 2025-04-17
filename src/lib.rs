@@ -1,7 +1,7 @@
-#![crate_name = "russimp"]
+#![crate_name = "russimp_ng"]
 #![crate_type = "lib"]
 
-pub extern crate russimp_sys as sys;
+pub extern crate russimp_sys_ng as sys;
 
 #[cfg(feature = "mint")]
 mod impl_mint;

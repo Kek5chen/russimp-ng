@@ -1,23 +1,23 @@
 [package]
-name = "russimp"
-version = "3.2.0"
-authors = ["Jhonny Knaak de Vargas"]
+name = "russimp-ng"
+version = "3.2.1"
+authors = ["Kek5chen"]
 edition = "2021"
 license-file = "LICENSE"
 readme = "README.md"
-homepage = "https://github.com/jkvargas/russimp"
+homepage = "https://github.com/Kek5chen/russimp-ng"
 categories = ["rendering", "external-ffi-bindings", "game-engines", "multimedia"]
 keywords = ["assimp", "3d", "blend", "3ds", "glTF"]
-repository = "https://github.com/jkvargas/russimp"
+repository = "https://github.com/Kek5chen/russimp-ng"
 description = "Assimp bindings for rust"
 exclude = [ "*.bash", "/models" ]
 
 [lib]
-name = "russimp"
+name = "russimp_ng"
 path = "src/lib.rs"
 
 [dependencies]
-russimp-sys = "2.0.1"
+russimp-sys-ng = { git = "https://github.com/Kek5chen/russimp-sys-ng.git" } 
 num-derive = "0.4"
 num-traits = "0.2.15"
 num_enum = "0.6.1"
@@ -27,10 +27,10 @@ strum_macros = "0.25"
 mint = { version = "0.5.9", optional = true }
 
 [features]
-default = []
-prebuilt = ["russimp-sys/prebuilt"]
-static-link = ["russimp-sys/static-link"]
-nozlib = ["russimp-sys/nozlib"]
+default = ["russimp-sys-ng/build-assimp"]
+prebuilt = ["russimp-sys-ng/prebuilt"]
+static-link = ["russimp-sys-ng/static-link"]
+nozlib = ["russimp-sys-ng/nozlib"]
 
 [package.metadata.docs.rs]
 features = ["prebuilt"]
