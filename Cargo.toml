@@ -19,12 +19,12 @@ path = "src/lib.rs"
 [dependencies]
 russimp-sys-ng = { git = "https://github.com/Kek5chen/russimp-sys-ng.git" } 
 num-derive = "0.4"
-num-traits = "0.2.15"
-num_enum = "0.6.1"
+num-traits = "0.2"
+num_enum = "0.7"
 derivative = "2.2.0"
-strum = "0.25"
-strum_macros = "0.25"
-mint = { version = "0.5.9", optional = true }
+strum = "0.27"
+strum_macros = "0.27"
+mint = { version = "0.5", optional = true }
 
 [features]
 default = ["russimp-sys-ng/build-assimp"]
