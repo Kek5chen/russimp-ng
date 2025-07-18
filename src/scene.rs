@@ -32,7 +32,7 @@ pub struct Scene {
 }
 
 #[derive(Derivative)]
-#[derivative(Debug)]
+#[derivative(Debug, Clone, Copy)]
 #[repr(u32)]
 pub enum PostProcess {
     /// Calculates the tangents and bitangents for the imported meshes.
