@@ -1,7 +1,11 @@
 # russimp-ng
 
 [![Crates.io](https://img.shields.io/crates/v/russimp-ng.svg)](https://crates.io/crates/russimp-ng)
-[![docs.rs](https://docs.rs/russimp-ng/badge.svg)](https://docs.rs/russimp-ng) [![Build Status](https://github.com/Kek5chen/russimp-ng/workflows/CI/badge.svg?branch=master)](https://github.com/Kek5chen/russimp-ng/actions) [![License](https://img.shields.io/crates/l/russimp-ng.svg)](LICENSE) **Maintained Rust bindings for the [Open Asset Import Library (Assimp)](https://github.com/assimp/assimp).**
+[![docs.rs](https://docs.rs/russimp-ng/badge.svg)](https://docs.rs/russimp-ng)
+[![Build Status](https://github.com/Kek5chen/russimp-ng/workflows/CI/badge.svg?branch=master)](https://github.com/Kek5chen/russimp-ng/actions)
+[![License](https://img.shields.io/crates/l/russimp-ng.svg)](LICENSE)
+
+**Maintained Rust bindings for the [Open Asset Import Library (Assimp)](https://github.com/assimp/assimp).**
 
 `russimp-ng` provides idiomatic and safe Rust bindings for the popular Assimp library, enabling you to load dozens of 3D model formats into a common, usable data structure.
 
