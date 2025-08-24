@@ -1,6 +1,6 @@
 [package]
 name = "russimp-ng"
-version = "3.2.4"
+version = "3.2.5"
 authors = ["Kek5chen"]
 edition = "2021"
 license-file = "LICENSE"
