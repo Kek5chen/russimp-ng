@@ -120,7 +120,7 @@ impl<T: FileSystem> FileOperationsWrapper<T> {
     // Implementation for aiFile::ReadProc.
     unsafe extern "C" fn io_read(
         ai_file: *mut aiFile,
-        buffer: *mut std::os::raw::c_char,
+        buffer: *mut c_char,
         size: usize,
         count: usize,
     ) -> usize {
