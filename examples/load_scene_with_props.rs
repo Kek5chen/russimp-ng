@@ -1,8 +1,8 @@
-use russimp::node::Node;
-use russimp::property::Property;
-use russimp::scene::PostProcess;
-use russimp::sys::AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS;
-use russimp::{property::PropertyStore, scene::Scene};
+use russimp_ng::node::Node;
+use russimp_ng::property::Property;
+use russimp_ng::scene::PostProcess;
+use russimp_ng::sys::AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS;
+use russimp_ng::{property::PropertyStore, scene::Scene};
 
 fn traverse_nodes(node: &Node, indent: String) {
     println!("{}{}", indent, node.name);

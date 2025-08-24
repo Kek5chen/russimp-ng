@@ -3,7 +3,6 @@
 //! Implement the FileSystem trait for your custom resource loading, with its open() method returning
 //! objects satisfying the FileOperations trait.
 use russimp_sys_ng::{aiFile, aiFileIO, aiOrigin, aiReturn};
-use std::convert::TryInto;
 use std::ffi::CStr;
 use std::io::SeekFrom;
 
@@ -100,7 +99,7 @@ impl<T: FileSystem> FileOperationsWrapper<T> {
         // exit this scope.
         let ai_file = Box::from_raw(ai_file);
         let mut file: Box<Box<dyn FileOperations>> =
-            Box::from_raw((*ai_file).UserData as *mut Box<dyn FileOperations>);
+            Box::from_raw(ai_file.UserData as *mut Box<dyn FileOperations>);
         file.close();
     }
     /// Turn an aiFile pointer into a the "self" object.
@@ -126,35 +125,33 @@ impl<T: FileSystem> FileOperationsWrapper<T> {
     ) -> usize {
         let file = Self::get_file(ai_file);
         let mut buffer =
-            std::slice::from_raw_parts_mut(buffer as *mut u8, (size * count).try_into().unwrap());
+            std::slice::from_raw_parts_mut(buffer as *mut u8, size * count);
         if size == 0 {
             panic!("Size 0 is invalid");
         }
         if count == 0 {
             panic!("Count 0 is invalid");
         }
-        if size > std::usize::MAX {
+        if size == usize::MAX {
             panic!("huge read size not supported");
         }
-        let size = size as usize;
         if size == 1 {
             // This looks like a memcpy.
-            if count > std::usize::MAX {
+            if count == usize::MAX {
                 panic!("huge read not supported");
             }
-            let count = count as usize;
 
             let (buffer, _) = buffer.split_at_mut(count);
             match file.read(buffer) {
                 Ok(size) => size,
-                Err(_) => std::usize::MAX,
+                Err(_) => usize::MAX,
             }
         } else {
             // We have to copy in strides. Implement this by looping for each object and tally the
             // count of full objects read.
             let mut total: usize = 0;
             for _ in 0..count {
-                let split = buffer.split_at_mut(size as usize);
+                let split = buffer.split_at_mut(size);
                 buffer = split.1;
                 let bytes_read = match file.read(split.0) {
                     Err(_) => break,
@@ -163,7 +160,7 @@ impl<T: FileSystem> FileOperationsWrapper<T> {
                 if bytes_read != size {
                     break;
                 }
-                total = total + 1;
+                total += 1;
             }
             total
         }
@@ -177,34 +174,31 @@ impl<T: FileSystem> FileOperationsWrapper<T> {
     ) -> usize {
         let file = Self::get_file(ai_file);
         let mut buffer =
-            std::slice::from_raw_parts(buffer as *mut u8, (size * count).try_into().unwrap());
+            std::slice::from_raw_parts(buffer as *mut u8, size * count);
         if size == 0 {
             panic!("Write of size 0");
         }
         if count == 0 {
             panic!("Write of count 0");
         }
-        if size > std::usize::MAX {
+        if size == usize::MAX {
             panic!("huge write size not supported");
         }
-        let size = size as usize;
         if size == 1 {
-            if count > std::usize::MAX {
+            if count == usize::MAX {
                 panic!("huge write not supported");
             }
-            let count = count as usize;
-
             let (buffer, _) = buffer.split_at(count);
             match file.write(buffer) {
                 Ok(size) => size,
-                Err(_) => std::usize::MAX,
+                Err(_) => usize::MAX,
             }
         } else {
             // Write in strides. Implement this by looping for each object and tally the
             // count of full objects written.
             let mut total: usize = 0;
             for _ in 0..count {
-                let split = buffer.split_at(size as usize);
+                let split = buffer.split_at(size);
                 buffer = split.1;
                 let bytes_written = match file.write(split.0) {
                     Err(_) => break,
@@ -213,7 +207,7 @@ impl<T: FileSystem> FileOperationsWrapper<T> {
                 if bytes_written != size {
                     break;
                 }
-                total = total + 1;
+                total += 1;
             }
             total
         }
@@ -271,7 +265,7 @@ mod test {
 
     impl super::FileOperations for MyFileOperations {
         fn read(&mut self, buf: &mut [u8]) -> Result<usize, ()> {
-            self.file.read(buf).or_else(|_| Err(()))
+            self.file.read(buf).map_err(|_| ())
         }
 
         fn write(&mut self, _buf: &[u8]) -> Result<usize, ()> {
@@ -280,7 +274,7 @@ mod test {
 
         fn tell(&mut self) -> usize {
             self.file
-                .seek(SeekFrom::Current(0))
+                .stream_position()
                 .unwrap_or(0)
                 .try_into()
                 .unwrap_or(0)
