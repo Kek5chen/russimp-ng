@@ -43,6 +43,12 @@ pub enum TextureType {
     ClearCoat = aiTextureType_aiTextureType_CLEARCOAT as _,
     Transmission = aiTextureType_aiTextureType_TRANSMISSION as _,
     Force32bit = aiTextureType__aiTextureType_Force32Bit as _,
+    MayaBase = aiTextureType_aiTextureType_MAYA_BASE as _,
+    MayaSpecular = aiTextureType_aiTextureType_MAYA_SPECULAR as _,
+    MayaSpecularColor = aiTextureType_aiTextureType_MAYA_SPECULAR_COLOR as _,
+    MayaSpecularRoughness = aiTextureType_aiTextureType_MAYA_SPECULAR_ROUGHNESS as _,
+    Anisotropy = aiTextureType_aiTextureType_ANISOTROPY as _,
+    GltfMetallicRoughness = aiTextureType_aiTextureType_GLTF_METALLIC_ROUGHNESS as _,
 }
 
 #[derive(Derivative)]
